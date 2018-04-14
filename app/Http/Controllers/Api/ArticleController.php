@@ -16,7 +16,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return ArticleResource::collection(Article::paginate());
+        return ArticleResource::collection(
+            Article::with('feed')->paginate()
+        );
     }
 
 
