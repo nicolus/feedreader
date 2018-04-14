@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Article');
     }
+
+    public function attachArticle(Article $article)
+    {
+        return $this->articles()->attach($article->id);
+    }
 }

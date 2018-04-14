@@ -7,7 +7,8 @@ use App\Repositories\RssArticleRepository;
 use Exception;
 use Illuminate\Console\Command;
 
-class UpdateFeeds extends Command {
+class UpdateFeeds extends Command
+{
 
     /**
      * The console command name.
@@ -42,16 +43,11 @@ class UpdateFeeds extends Command {
                 if (!Article::where('guid', $article->guid)->exists()) {
                     $feed->articles()->save($article);
 
-                    //TODO : I feel like there's a more efficient way...
-                    foreach ($feed->users as $user){
-                        $user->articles()->attach($article->id);
-                    }
+                    $feed->users->each->attachArticle($article);
 
                     ProcessArticle::dispatch($article);
                 }
-
             }
-
         }
         return true;
     }
