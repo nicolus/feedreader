@@ -13,9 +13,13 @@ class CreateUserFeedsTable extends Migration
     public function up()
     {
         Schema::create('feed_user', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('feed_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('feed_id')->unsigned();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('feed_id')->references('id')->on('feeds')->onDelete('cascade');
+
+            $table->unique(['user_id', 'feed_id']);
         });
     }
 
@@ -26,6 +30,6 @@ class CreateUserFeedsTable extends Migration
      */
 	public function down()
     {
-        Schema::drop('user_feeds');
+        Schema::dropIfExists('feed_user');
     }
 }

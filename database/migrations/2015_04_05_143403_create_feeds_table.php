@@ -29,7 +29,7 @@ class CreateFeedsTable extends Migration {
      */
     public function down()
     {
-        Schema::drop('feeds');
+        Schema::dropIfExists('feeds');
     }
 
 }

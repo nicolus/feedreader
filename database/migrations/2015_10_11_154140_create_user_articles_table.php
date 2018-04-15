@@ -13,12 +13,17 @@ class CreateUserArticlesTable extends Migration
     public function up()
     {
         Schema::create('article_user', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('article_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('article_id')->unsigned();
             $table->boolean('read')->default(false);
             $table->boolean('starred')->default(false);
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+
+            $table->unique(['user_id', 'article_id']);
         });
+
     }
 
     /**
@@ -28,6 +33,6 @@ class CreateUserArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_articles');
+        Schema::dropIfExists('article_user');
     }
 }
