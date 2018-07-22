@@ -13,7 +13,7 @@ class Article extends \Eloquent
     {
         return array_only(
             $this->toArray(),
-            ['id', 'title', 'content']
+            ['id', 'title', 'content', 'full_content']
         );
     }
 

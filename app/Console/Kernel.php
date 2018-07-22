@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//      $schedule->command(UpdateFeeds::class)->everyMinute();
+        $schedule->command(UpdateFeeds::class)->everyMinute();
         $schedule->command('horizon:snapshot')->everyMinute();
     }
 

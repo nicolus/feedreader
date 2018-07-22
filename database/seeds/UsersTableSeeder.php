@@ -22,7 +22,8 @@ class UsersTableSeeder extends Seeder
         $user = User::first();
 
         $user->feeds()->saveMany([
-            new Feed(['name' => 'lorem-rss', 'url' => 'http://lorem-rss.herokuapp.com/feed?unit=minute', 'type' => 1])
+            new Feed(['name' => 'lesnumeriques', 'url' => 'http://feeds.feedburner.com/lesnumeriques/news', 'type' => 1]),
+//            new Feed(['name' => 'lorem-rss', 'url' => 'http://lorem-rss.herokuapp.com/feed?unit=minute', 'type' => 1])
         ]);
     }
 }

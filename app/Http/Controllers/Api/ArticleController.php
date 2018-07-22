@@ -14,11 +14,14 @@ class ArticleController extends Controller
      *
      * @return ArticleResource
      */
-    public function index()
+    public function index(Request $request)
     {
-        return ArticleResource::collection(
-            Article::with('feed')->paginate()
-        );
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+
+        $articles = Article::with('feed')
+            ->orderby('created_at', $order);
+
+        return ArticleResource::collection($articles->paginate());
     }
 
 
