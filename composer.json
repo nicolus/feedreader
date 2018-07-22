@@ -9,6 +9,7 @@
         "algolia/algoliasearch-client-php": "^1.25",
         "barryvdh/laravel-cors": "^0.11.0",
         "fideloper/proxy": "~4.0",
+        "hhxsv5/laravel-s": "~2.0",
         "laravel/framework": "5.6.*",
         "laravel/horizon": "^1.1",
         "laravel/scout": "^4.0",
