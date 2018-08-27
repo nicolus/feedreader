@@ -34,4 +34,13 @@ class Article extends \Eloquent
         $this->attributes['updated_at'] = $date;
     }
 
+    public function findImage()
+    {
+        if (preg_match("#<img[^>]* src=\"(.+)\"#", $this->full_content, $m)) {
+            return $m[1];
+        }
+
+        return null;
+    }
+
 }

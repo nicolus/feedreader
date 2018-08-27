@@ -20,6 +20,8 @@ class CreateArticlesTable extends Migration {
             $table->text('content')->nullable();
             $table->text('full_content')->nullable();
             $table->string('guid');
+            $table->dateTime('date');
+            $table->string('image')->nullable();
             $table->string('url')->nullable();
             $table->timestamps();
         });

@@ -21,7 +21,8 @@ class RssArticleRepository implements ArticleRepositoryInterface
         $this->feed = $feed;
     }
 
-    public function getAll()
+
+    public function getAll(): Collection
     {
         $allArticles = new Collection();
         $reader = new Reader();
@@ -49,7 +50,11 @@ class RssArticleRepository implements ArticleRepositoryInterface
         return $allArticles;
     }
 
-    protected function getArticleFromItem(Item $item)
+    /**
+     * @param Item $item
+     * @return Article
+     */
+    protected function getArticleFromItem(Item $item): Article
     {
         $article = new Article();
 
@@ -61,11 +66,12 @@ class RssArticleRepository implements ArticleRepositoryInterface
         $article->content = html_entity_decode(strip_tags($item->getContent()), ENT_QUOTES);
         $article->url = $item->getUrl();
         $article->guid = $item->getId();
+        $article->date = $item->getPublishedDate();
 
         return $article;
     }
 
-    static function fetchFullContent($article)
+    static function fetchFullContent($article): string
     {
         $config = new Config();
         $grabber = new Scraper($config);

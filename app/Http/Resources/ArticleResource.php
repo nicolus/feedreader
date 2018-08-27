@@ -19,6 +19,7 @@ class ArticleResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'full_content' => $this->full_content,
+            'image' => $this->image,
             'date' => $this->created_at,
             'feed' => new FeedResource($this->whenLoaded('feed'))
         ];
