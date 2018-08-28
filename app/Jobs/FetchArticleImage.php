@@ -36,9 +36,13 @@ class FetchArticleImage implements ShouldQueue
     public function handle()
     {
         $imgFile = $this->article->guid . '.jpg';
+        $imgUrl = $this->article->findImage();
 
+        if (empty($imgUrl)) {
+            return null;
+        }
 
-        \Image::make($this->article->findImage())
+        \Image::make($imgUrl)
             ->fit(128, 128)
             ->save(public_path("img/$imgFile", 80));
 
@@ -46,6 +50,7 @@ class FetchArticleImage implements ShouldQueue
         $this->article->image = $imgFile;
 
         $this->article->save();
+
     }
 }
 

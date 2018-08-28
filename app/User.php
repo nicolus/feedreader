@@ -34,11 +34,11 @@ class User extends Authenticatable
 
     public function articles()
     {
-        return $this->belongsToMany('App\Article');
+        return $this->belongsToMany('App\Article')->withPivot(['read', 'starred']);
     }
 
-    public function attachArticle(Article $article)
+    public function attachArticle(Article $article, $fields = [])
     {
-        return $this->articles()->attach($article->id);
+        return $this->articles()->attach($article->id, $fields);
     }
 }

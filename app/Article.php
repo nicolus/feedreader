@@ -22,6 +22,11 @@ class Article extends \Eloquent
         return $this->belongsTo('App\Feed');
     }
 
+    public function currentUser()
+    {
+        return $this->belongsToMany('App\User')->WherePivot('user_id', 1)->withPivot('starred', 'read');
+    }
+
     public function setCreatedAtAttribute(Carbon $date)
     {
         $date->setTimezone('UTC');
@@ -36,11 +41,21 @@ class Article extends \Eloquent
 
     public function findImage()
     {
-        if (preg_match("#<img[^>]* src=\"(.+)\"#", $this->full_content, $m)) {
+        if (preg_match("#<img[^>]* src=\"([^\"]+)\"#", $this->full_content, $m)) {
             return $m[1];
         }
 
         return null;
+    }
+
+    public function getStarredAttribute()
+    {
+        return $this->currentUser()->first()->pivot->starred;
+    }
+
+    public function getReadAttribute()
+    {
+        return $this->currentUser()->first()->pivot->read;
     }
 
 }
