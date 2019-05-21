@@ -33,6 +33,15 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        \Auth::loginUsingId(1);
+
+        \Auth::user()
+            ->articles()
+            ->updateExistingPivot(
+                $article->id,
+                ['read' => true]
+            );
+
         return $article;
     }
 
@@ -46,6 +55,26 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         //
+    }
+
+    public function markAllAsRead()
+    {
+        \Auth::loginUsingId(1);
+
+        $unreadArticles = \Auth::user()
+            ->articles()
+            ->where('read', 0)
+            ->pluck('id')
+            ->toArray();
+
+        foreach ($unreadArticles as $id) {
+            \Auth::user()
+                ->articles()
+                ->updateExistingPivot(
+                    $id,
+                    ['read' => true]
+                );
+        }
     }
 
 }

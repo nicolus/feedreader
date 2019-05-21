@@ -17,7 +17,7 @@ class TwitterArticleRepository implements ArticleRepositoryInterface
         $this->feed = $feed;
     }
 
-    public function getAll()
+    public function getAll(): Collection
     {
         $all_articles = new Collection();
 
