@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Laravel\Scout\Searchable;
+use Illuminate\Support\Arr;
 
 class Article extends \Eloquent
 {
@@ -11,7 +12,7 @@ class Article extends \Eloquent
 
     public function toSearchableArray()
     {
-        return array_only(
+        return Arr::only(
             $this->toArray(),
             ['id', 'title', 'content']
         );

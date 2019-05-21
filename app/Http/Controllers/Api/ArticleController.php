@@ -6,19 +6,21 @@ use App\Article;
 use App\Http\Resources\ArticleResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return ArticleResource
+     * @param Request $request
+     * @return ResourceCollection
      */
     public function index(Request $request)
     {
         $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
 
-        $articles = Article::with('feed')
+        $articles = \Auth::user()->articles()->with('feed')
             ->orderby('created_at', $order);
 
         return ArticleResource::collection($articles->paginate(10));
@@ -29,12 +31,10 @@ class ArticleController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
+     * @return Article
      */
     public function show(Article $article)
     {
-        \Auth::loginUsingId(1);
-
         \Auth::user()
             ->articles()
             ->updateExistingPivot(
@@ -54,8 +54,6 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        \Auth::loginUsingId(1);
-
         \Auth::user()
             ->articles()
             ->updateExistingPivot(
@@ -66,8 +64,6 @@ class ArticleController extends Controller
 
     public function markAllAsRead()
     {
-        \Auth::loginUsingId(1);
-
         $unreadArticles = \Auth::user()
             ->articles()
             ->where('read', 0)

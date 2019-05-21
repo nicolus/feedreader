@@ -1,7 +1,5 @@
 <?php
 
-use App\Feed;
-use App\User;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -14,9 +12,15 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Test User',
-            'email' => 'test@test.com',
-            'password' => bcrypt('secret'),
+            [
+                'name' => 'Test User',
+                'email' => 'test@test.com',
+                'password' => bcrypt('secret'),
+            ], [
+                'name' => 'Test User 2',
+                'email' => 'test2@test.com',
+                'password' => bcrypt('secret'),
+            ]
         ]);
     }
 }

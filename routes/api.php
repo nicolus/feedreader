@@ -13,9 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::resource('articles', 'Api\ArticleController');
-Route::post('articles/markallasread', 'Api\ArticleController@markAllAsRead');
+Route::middleware(['auth:api'])->group(function () {
+    Route::resource('articles', 'Api\ArticleController');
+    Route::post('articles/markallasread', 'Api\ArticleController@markAllAsRead');
+});
