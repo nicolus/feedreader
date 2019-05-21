@@ -21,7 +21,7 @@ class ArticleController extends Controller
         $articles = Article::with('feed')
             ->orderby('created_at', $order);
 
-        return ArticleResource::collection($articles->paginate());
+        return ArticleResource::collection($articles->paginate(10));
     }
 
 
@@ -54,7 +54,14 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        \Auth::loginUsingId(1);
+
+        \Auth::user()
+            ->articles()
+            ->updateExistingPivot(
+                $article->id,
+                $request->only(['starred', 'read'])
+            );
     }
 
     public function markAllAsRead()

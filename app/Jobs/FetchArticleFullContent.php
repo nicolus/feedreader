@@ -11,23 +11,21 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ProcessArticle implements ShouldQueue
+class FetchArticleFullContent implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
     protected $article;
-    protected $feed;
 
     /**
      * Create a new job instance.
      *
      * @param Article $article
      */
-    public function __construct(Feed $feed, Article $article)
+    public function __construct(Article $article)
     {
         $this->article = $article;
-        $this->feed = $feed;
     }
 
     /**
@@ -37,6 +35,7 @@ class ProcessArticle implements ShouldQueue
      */
     public function handle()
     {
-
+        $this->article->full_content = RssArticleRepository::fetchFullContent($this->article);
+        $this->article->save();
     }
 }

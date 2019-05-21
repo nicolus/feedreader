@@ -2,7 +2,10 @@
 
 use App\Article;
 use App\Feed;
+use App\Jobs\FetchArticleFullContent;
+use App\Jobs\FetchArticleImage;
 use App\Jobs\ProcessArticle;
+use App\Jobs\ProcessFeed;
 use App\Repositories\RssArticleRepository;
 use Exception;
 use Illuminate\Console\Command;
@@ -35,19 +38,7 @@ class UpdateFeeds extends Command
         $feeds = Feed::rss()->get();
 
         foreach ($feeds as $feed) {
-            $this->info("fetching feed for $feed->name");
-            $repo = new RssArticleRepository($feed);
-            $articles = $repo->getAll();
-
-            foreach ($articles as $article) {
-                if (!Article::where('guid', $article->guid)->exists()) {
-                    $feed->articles()->save($article);
-
-                    $feed->users->each->attachArticle($article);
-
-                    ProcessArticle::dispatch($article);
-                }
-            }
+            ProcessFeed::dispatch($feed);
         }
         return true;
     }

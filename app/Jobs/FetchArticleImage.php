@@ -11,23 +11,21 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class ProcessArticle implements ShouldQueue
+class FetchArticleImage implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
     protected $article;
-    protected $feed;
 
     /**
      * Create a new job instance.
      *
      * @param Article $article
      */
-    public function __construct(Feed $feed, Article $article)
+    public function __construct(Article $article)
     {
         $this->article = $article;
-        $this->feed = $feed;
     }
 
     /**
@@ -37,6 +35,23 @@ class ProcessArticle implements ShouldQueue
      */
     public function handle()
     {
+        $imgFile = $this->article->guid . '.jpg';
+        $imgUrl = $this->article->findImage();
+
+        if (empty($imgUrl)) {
+            return null;
+        }
+
+        \Image::make($imgUrl)
+            ->fit(128, 128)
+            ->save(public_path("img/$imgFile", 80));
+
+
+        $this->article->image = $imgFile;
+
+        $this->article->save();
 
     }
 }
+
+

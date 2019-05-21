@@ -17,8 +17,12 @@ class ArticleResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'url' => $this->url,
             'content' => $this->content,
             'full_content' => $this->full_content,
+            'starred' => $this->starred,
+            'read' => $this->read,
+            'image' => $this->image,
             'date' => $this->created_at,
             'feed' => new FeedResource($this->whenLoaded('feed'))
         ];

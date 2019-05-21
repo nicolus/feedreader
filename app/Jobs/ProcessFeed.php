@@ -35,23 +35,20 @@ class ProcessFeed implements ShouldQueue
      */
     public function handle()
     {
-        $this->info("fetching feed for $this->feed->name");
         $repo = new RssArticleRepository($this->feed);
         $articles = $repo->getAll();
 
         foreach ($articles as $article) {
+
             if (!Article::where('guid', $article->guid)->exists()) {
                 $this->feed->articles()->save($article);
+                $this->feed->users->each->attachArticle($article);
 
-                foreach ($this->feed->users as $user) {
-                    $user->articles()->attach($article->id);
-                }
-
-                ProcessArticle::dispatch($article);
+                FetchArticleFullContent::dispatch($article)->chain([
+                    new FetchArticleImage($article)
+                ]);
             }
-
         }
-        self::dispatch($this->feed);
 
     }
 
