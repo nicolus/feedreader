@@ -25,7 +25,9 @@ class Article extends \Eloquent
 
     public function currentUser()
     {
-        return $this->belongsToMany('App\User')->WherePivot('user_id', \Auth::user()->id)->withPivot('starred', 'read');
+        return $this->belongsToMany('App\User')
+            ->WherePivot('user_id', \Auth::user()->id)
+            ->withPivot('starred', 'read');
     }
 
     public function setCreatedAtAttribute(Carbon $date)
