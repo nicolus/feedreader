@@ -23,7 +23,7 @@ class ArticleController extends Controller
         $articles = \Auth::user()->articles()->with('feed')
             ->orderby('created_at', $order);
 
-        return ArticleResource::collection($articles->paginate(10));
+        return ArticleResource::collection($articles->paginate(20));
     }
 
 
