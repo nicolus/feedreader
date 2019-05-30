@@ -7,6 +7,7 @@ use App\Http\Resources\ArticleResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 
 class ArticleController extends Controller
 {
@@ -30,7 +31,7 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param Article $article
      * @return Article
      */
     public function show(Article $article)
@@ -48,9 +49,9 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Article $article
+     * @return Response
      */
     public function update(Request $request, Article $article)
     {
@@ -60,6 +61,7 @@ class ArticleController extends Controller
                 $article->id,
                 $request->only(['starred', 'read'])
             );
+        return response(null, 200);
     }
 
     public function markAllAsRead()
