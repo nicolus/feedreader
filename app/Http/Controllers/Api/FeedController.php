@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Article;
-use App\Http\Resources\ArticleResource;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\FeedResource;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Http\Response;
+use PicoFeed\Reader\Reader;
 
 class FeedController extends Controller
 {
@@ -23,6 +21,21 @@ class FeedController extends Controller
         $feeds = \Auth::user()->feeds()->get();
 
         return FeedResource::collection($feeds);
+    }
+
+    public function discover(Request $request)
+    {
+        $query = $request->get('q');
+
+        $reader = new Reader;
+        $resource = $reader->download($query);
+
+        $feeds = $reader->find(
+            $resource->getUrl(),
+            $resource->getContent()
+        );
+
+        print_r($feeds);
     }
 
 }
