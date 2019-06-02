@@ -4,19 +4,24 @@ namespace App\Jobs;
 
 use App\Article;
 use App\Feed;
+use App\Repositories\ArticleRepositoryInterface;
 use App\Repositories\RssArticleRepository;
+use App\Repositories\TwitterArticleRepository;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProcessFeed implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /** @var Feed  */
+    /** @var Feed */
     private $feed;
+
+    /** @var ArticleRepositoryInterface */
+    private $repo;
 
     /**
      * Create a new job instance.
@@ -26,6 +31,15 @@ class ProcessFeed implements ShouldQueue
     public function __construct(Feed $feed)
     {
         $this->feed = $feed;
+
+        switch ($this->feed->type){
+            case Feed::TYPE_RSS:
+                $this->repo = new RssArticleRepository($this->feed);
+                break;
+            case Feed::TYPE_TWITTER:
+                $this->repo = new TwitterArticleRepository($this->feed);
+                break;
+        }
     }
 
     /**
@@ -35,8 +49,7 @@ class ProcessFeed implements ShouldQueue
      */
     public function handle()
     {
-        $repo = new RssArticleRepository($this->feed);
-        $articles = $repo->getAll();
+        $articles = $this->repo->getAll();
 
         foreach ($articles as $article) {
 
@@ -49,7 +62,6 @@ class ProcessFeed implements ShouldQueue
                 ]);
             }
         }
-
     }
 
 }

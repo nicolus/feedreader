@@ -25,10 +25,11 @@ class FeedTest extends TestCase
         $this->assertEquals("MyUrl", $article->findImage());
     }
 
-    public function testtakeFirstUrl()
+    public function testTakeFirstUrl()
     {
         $article = new Article();
         $article->full_content = "An article with a picture inside <img class=\"test\" src=\"MyFirstUrl\" /> inside <img src=\"MySecondUrl\" /> it";
         $this->assertEquals("MyFirstUrl", $article->findImage());
     }
+
 }

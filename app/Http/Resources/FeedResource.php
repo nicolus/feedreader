@@ -15,8 +15,9 @@ class FeedResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'title' => $this->name
+            'id' => $this->id ?? null,
+            'name' => $this->name ?? null,
+            'url' => $this->url
         ];
     }
 }
