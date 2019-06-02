@@ -21,7 +21,14 @@ class ArticleController extends Controller
     {
         $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
 
-        $articles = \Auth::user()->articles()->with('feed')
+        \DB::connection()->enableQueryLog();
+        $articles = \Auth::user()
+            ->articles()
+            ->join('feed_user', function ($join) {
+                $join->on('articles.feed_id', '=', 'feed_user.feed_id')
+                    ->where('feed_user.user_id', \Auth::id());
+            })
+            ->with('feed')
             ->orderby('created_at', $order);
 
         return ArticleResource::collection($articles->paginate(20));
