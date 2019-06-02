@@ -35,11 +35,14 @@ class UpdateFeeds extends Command
      */
     public function handle()
     {
+
+        \Log::info('Starting feeds:update');
         $feeds = Feed::rss()->get();
 
         foreach ($feeds as $feed) {
             ProcessFeed::dispatch($feed);
         }
+        \Log::info('feeds:update ran successfully');
         return true;
     }
 
