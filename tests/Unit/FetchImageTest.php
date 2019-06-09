@@ -20,7 +20,7 @@ class FetchImageTest extends TestCase
 
         $article->full_content = "An article with a picture inside <img
  class=\"test\"
- src=\"MyUrl\" 
+ src=\"MyUrl\"
  /> inside";
         $this->assertEquals("MyUrl", $article->findImage());
     }
@@ -30,5 +30,13 @@ class FetchImageTest extends TestCase
         $article = new Article();
         $article->full_content = "An article with a picture inside <img class=\"test\" src=\"MyFirstUrl\" /> inside <img src=\"MySecondUrl\" /> it";
         $this->assertEquals("MyFirstUrl", $article->findImage());
+    }
+
+    public function testTakeUrlFromSummaryIfAvailable()
+    {
+        $article = new Article();
+        $article->full_content = "An article with a picture inside <img src=\"SomeWeirdPicture\" /> inside";
+        $article->content = "The content from the feed with a  <img src=\"TheRightPicture\" /> inside";
+        $this->assertEquals("TheRightPicture", $article->findImage());
     }
 }

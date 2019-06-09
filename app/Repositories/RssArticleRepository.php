@@ -63,7 +63,7 @@ class RssArticleRepository implements ArticleRepositoryInterface
         $article->title = $item->getTitle();
         $article->created_at = $date;
         $article->updated_at = $date;
-        $article->content = html_entity_decode(strip_tags($item->getContent()), ENT_QUOTES);
+        $article->content = $item->getContent();
         $article->url = $item->getUrl();
         $article->guid = $item->getId();
         $article->date = $item->getPublishedDate();

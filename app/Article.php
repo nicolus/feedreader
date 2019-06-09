@@ -44,7 +44,12 @@ class Article extends \Eloquent
 
     public function findImage()
     {
-        if (preg_match("#<img[^>]* src=\"([^\"]+)\"#", $this->full_content, $m)) {
+        $regex = "#<img[^>]* src=\"([^\"]+)\"#";
+        if (preg_match($regex, $this->content, $m)) {
+            return $m[1];
+        }
+
+        if (preg_match($regex, $this->full_content, $m)) {
             return $m[1];
         }
 
