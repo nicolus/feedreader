@@ -100,11 +100,6 @@ JSON;
             new Feed(['name' => 'Neowin', 'url' => 'https://feeds.feedburner.com/neowin-main', 'type' => Feed::TYPE_RSS])
         ]);
 
-        $user->find(1)->feeds()->saveMany([
-            new Feed(['name' => 'lesnumeriques', 'url' => 'http://feeds.feedburner.com/lesnumeriques/news', 'type' => Feed::TYPE_RSS]),
-            new Feed(['name' => 'Neowin', 'url' => 'https://feeds.feedburner.com/neowin-main', 'type' => Feed::TYPE_RSS])
-        ]);
-
         $user->find(2)->feeds()->saveMany([
             new Feed(['name' => 'The Guardian (World)', 'url' => 'https://www.theguardian.com/world/rss', 'type' => 1])
         ]);
