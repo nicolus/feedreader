@@ -44,13 +44,12 @@ class Article extends \Eloquent
 
     public function findImage()
     {
-        $regex = "#<img[^>]* src=\"([^\"]+)\"#";
-        if (preg_match($regex, $this->content, $m)) {
-            return $m[1];
-        }
 
-        if (preg_match($regex, $this->full_content, $m)) {
-            return $m[1];
+        foreach ([$this->content, $this->full_content] as $content) {
+            if (preg_match("#<img[^>]* src=\"([^\"]+)\"#", $this->content, $m)) {
+                //Fix for some feeds that have &amp; in the image urls (ie: the guardian)
+                return str_replace("&amp;", "&", $m[1]);
+            }
         }
 
         return null;
