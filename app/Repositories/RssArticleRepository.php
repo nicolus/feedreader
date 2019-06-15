@@ -38,7 +38,7 @@ class RssArticleRepository implements ArticleRepositoryInterface
             );
 
             // Return a Feed object
-            $reader = $parser->execute();
+            $reader = $parser->setHashAlgo('sha1')->execute();
 
             foreach ($reader->items as $item) {
                 $allArticles->push(

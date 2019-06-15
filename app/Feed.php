@@ -81,7 +81,7 @@ class Feed extends \Eloquent  {
                 $resource->getUrl(),
                 $resource->getContent(),
                 $resource->getEncoding()
-            )->execute();
+            )->setHashAlgo('sha1')->execute();
 
             $return->push(new Feed([
                 'name' => $feed->title,
