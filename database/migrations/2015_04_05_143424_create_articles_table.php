@@ -15,7 +15,7 @@ class CreateArticlesTable extends Migration {
         Schema::create('articles', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('feed_id');
+            $table->integer('feed_id')->unsigned();
             $table->string('title');
             $table->text('content')->nullable();
             $table->text('full_content')->nullable();
@@ -24,6 +24,8 @@ class CreateArticlesTable extends Migration {
             $table->string('image')->nullable();
             $table->string('url')->nullable();
             $table->timestamps();
+
+            $table->foreign('feed_id')->references('id')->on('feeds');
         });
 	}
 
