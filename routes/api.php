@@ -14,7 +14,9 @@ use Illuminate\Http\Request;
 */
 
 
-Route::middleware(['auth:api'])->group(function () {
+Route::post('/sanctum/token', 'Auth\LoginController@login');
+
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('articles', 'Api\ArticleController');
     Route::resource('feeds', 'Api\FeedController', ['only' => ['index', 'store', 'destroy']]);
     Route::post('articles/markallasread', 'Api\ArticleController@markAllAsRead');

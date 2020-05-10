@@ -14,7 +14,3 @@
 Route::get('/', function () {
     return "ok";
 });
-
-//Route::get('/', function () {
-//
-//});
