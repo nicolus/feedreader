@@ -19,7 +19,7 @@ class ArticleResource extends JsonResource
             'title' => $this->title,
             'url' => $this->url,
             'content' =>  html_entity_decode(strip_tags($this->content), ENT_QUOTES),
-            'full_content' => $this->full_content,
+            'full_content' => $this->full_content ?: $this->content ,
             'starred' => $this->starred,
             'read' => $this->read,
             'image' => $this->image,

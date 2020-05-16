@@ -19,17 +19,9 @@ class FeedsTableSeeder extends Seeder
             <<<JSON
 [
         {
-            "name": "Le Monde",
-			"url": "http://lemonde.fr/",
-			"feedlink": "http://rss.lemonde.fr/c/205/f/3050/index.rss"
-		}, {
-            "name": "20minutes",
-			"url": "http://20minutes.fr/",
-			"feedlink": "http://flux.20minutes.fr/c/32497/f/479493/index.rss"
-		}, {
             "name": "Le Nouvel Observateur",
 			"url": "http://nouvelobs.com/",
-			"feedlink": "http://tempsreel.nouvelobs.com/rss.xml"
+			"feedlink": "http://www.nouvelobs.com/rss.xml"
 		}, {
             "name": "Le Point",
 			"url": "http://lepoint.fr/",
@@ -41,13 +33,13 @@ class FeedsTableSeeder extends Seeder
 		}, {
             "name": "purepeople",
 			"url": "http://purepeople.com/",
-			"feedlink": "http://www.purepeople.com/rss/stanley-tucci_p2758.xml"
+			"feedlink": "https://www.purepeople.com/rss/news_t0.xml"
 		}, {
             "name": "Boursorama",
 			"url": "http://boursorama.com/",
 			"feedlink": "http://lifestyle.boursorama.com/rss"
 		}, {
-             "name": "Europe1",
+            "name": "Europe1",
 			"url": "http://europe1.fr/",
 			"feedlink": "http://www.europe1.fr/var/export/rss/europe1/actus.xml"
 		}
@@ -61,14 +53,28 @@ JSON;
         }
 
 
-        $user->find(1)->feeds()->saveMany([
-            new Feed(['name' => 'lesnumeriques', 'url' => 'http://feeds.feedburner.com/lesnumeriques/news', 'type' => Feed::TYPE_RSS]),
-            new Feed(['name' => 'Neowin', 'url' => 'https://feeds.feedburner.com/neowin-main', 'type' => Feed::TYPE_RSS])
-        ]);
+        $user->find(1)->feeds()->saveMany(
+            [
+                new Feed(
+                    [
+                        'name' => 'lesnumeriques',
+                        'url' => 'http://feeds.feedburner.com/lesnumeriques/news',
+                        'type' => Feed::TYPE_RSS
+                    ]
+                ),
+                new Feed(
+                    ['name' => 'Neowin', 'url' => 'https://feeds.feedburner.com/neowin-main', 'type' => Feed::TYPE_RSS]
+                )
+            ]
+        );
 
-        $user->find(2)->feeds()->saveMany([
-            new Feed(['name' => 'The Guardian (World)', 'url' => 'https://www.theguardian.com/world/rss', 'type' => 1])
-        ]);
+        $user->find(2)->feeds()->saveMany(
+            [
+                new Feed(
+                    ['name' => 'The Guardian (World)', 'url' => 'https://www.theguardian.com/world/rss', 'type' => 1]
+                )
+            ]
+        );
 
         $user->find(2)->feeds()->attach(1);
     }

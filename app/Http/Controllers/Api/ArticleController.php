@@ -20,6 +20,7 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $starred = (bool)($request->input('filter') == 'starred');
 
         \DB::connection()->enableQueryLog();
         $articles = \Auth::user()
@@ -28,10 +29,13 @@ class ArticleController extends Controller
                 $join->on('articles.feed_id', '=', 'feed_user.feed_id')
                     ->where('feed_user.user_id', \Auth::id());
             })
+            ->when($starred, function($query){
+                $query->where('starred', true);
+            })
             ->with('feed')
             ->orderby('created_at', $order);
 
-        return ArticleResource::collection($articles->paginate(20));
+        return ArticleResource::collection($articles->simplePaginate(20));
     }
 
 

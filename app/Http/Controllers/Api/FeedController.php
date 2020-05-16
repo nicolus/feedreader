@@ -39,6 +39,9 @@ class FeedController extends Controller
         }
 
         $feed->users()->attach(\Auth::id());
+
+        // Attach existing articles to the user :
+        auth()->user()->articles()->attach($feed->articles()->pluck('id'));
     }
 
     public function destroy(Feed $feed)
