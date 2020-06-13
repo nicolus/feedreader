@@ -44,7 +44,7 @@ class FetchArticleImage implements ShouldQueue
 
         \Image::make($imgUrl)
             ->fit(112, 112)
-            ->save(public_path("img/$imgFile"), 80);
+            ->save(storage_path("public/img/$imgFile"), 80);
 
 
         $this->article->image = $imgFile;

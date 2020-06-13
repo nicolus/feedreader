@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
-rm ./public/img/*
+rm ./public/storage/img/*
+php artisan storage:link
 php artisan migrate:refresh
 #php artisan passport:install
 php artisan db:seed
