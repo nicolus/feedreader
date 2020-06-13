@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('/sanctum/token', 'Auth\LoginController@login');
+Route::post('/sanctum/token', 'Auth\LoginController@token');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('articles', 'Api\ArticleController');

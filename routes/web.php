@@ -11,6 +11,8 @@
 |
 */
 
+Route::post('login', 'Auth\LoginController@statefulLogin');
+
 Route::get('/', function () {
     return "ok";
 });

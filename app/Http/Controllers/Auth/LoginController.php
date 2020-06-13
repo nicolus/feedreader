@@ -5,12 +5,23 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+
+    public function statefulLogin(Request $request)
+    {
+        if (Auth::attempt($request->only(['email', 'password']))) {
+            return response(["success" => true], 200);
+        } else {
+            return response(["success" => false], 503);
+        }
+    }
+
+    public function token(Request $request)
     {
         $request->validate(
             [
